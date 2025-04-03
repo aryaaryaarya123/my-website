@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chemistry Reaction Assigner</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        h1 {
+            color: #ff9800;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .people-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .person-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 150px;
+        }
+
+        button {
+            background: #ff9800;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+            margin-bottom: 30px;
+        }
+
+        button:hover {
+            background: #ffab00;
+            transform: scale(1.05);
+        }
+
+        .reaction-display {
+            margin-top: 15px;
+            font-size: 1em;
+            color: #ff9800;
+            min-height: 60px;
+        }
+
+        .chapter-name {
+            color: #4CAF50;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Chemistry Reaction Assigner</h1>
+        <button onclick="assignReactions()">Assign Reactions</button>
+        <div class="people-container">
+            <div class="person-card">
+                <h2>Angeela</h2>
+                <div class="reaction-display" id="angeela"></div>
+            </div>
+            <div class="person-card">
+                <h2>Arya</h2>
+                <div class="reaction-display" id="arya"></div>
+            </div>
+            <div class="person-card">
+                <h2>Umanga</h2>
+                <div class="reaction-display" id="umanga"></div>
+            </div>
+            <div class="person-card">
+                <h2>Chandra</h2>
+                <div class="reaction-display" id="chandra"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chemistryChapters = [
+            {
+                name: "Haloalkanes",
+                reactions: [
+                    "Preparation from alkane",
+                    "Preparation from alkene",
+                    "Preparation from alcohol",
+                    "Preparation from alkychlorides",
+                    "Formation of alcohol",
+                    "Formation of CN group",
+                    "Formation of amines",
+                    "Formation of ether",
+                    "Formation of carbylaamine",
+                    "Formation of nitroalkane",
+                    "Dehydrohalogenation reaction",
+                    "Chloroform from acetone",
+                    "Chloroform from ethanol",
+                    "Oxidation of chloroform",
+                    "Action with silver",
+                    "Hydrolysis of chloroform",
+                    "Carbylamine reaction",
+                    "Condensation with ketone",
+                    "Nitration/Cholopicrin",
+                    "Riermer-Tierman Reaction"
+                ]
+            },
+            {
+                name: "Haloarenes",
+                reactions: [
+                    "Preparation from benzene",
+                    "Preparation from diazonium salt",
+                    "Gatterman reaction",
+                    "Formation phenol",
+                    "Formation of aniline",
+                    "Formation of isonitrile",
+                    "Formation of benzoic acid",
+                    "Formation of benzylamine",
+                    "Formation of benzamide",
+                    "Formation of toluene",
+                    "Friedel Crafts reactions",
+                    "Wurtz Fittig reaction",
+                    "Fittig reaction",
+                    "Reduction of haloarenes",
+                    "DDT formation"
+                ]
+            },
+            {
+                name: "Alcohol",
+                reactions: [
+                    "From haloalkanes",
+                    "From esters",
+                    "From amines",
+                    "From Grignard reagent",
+                    "Oxo process",
+                    "Hydroboration process",
+                    "Fermentation of sugar",
+                    "Victor Mayers test",
+                    "Reaction with HBr/HCl/HI",
+                    "Reaction with phosphorus halide",
+                    "Action with thionyl chloride",
+                    "Esterification",
+                    "Reaction with metals",
+                    "Dehydration of alcohol",
+                    "Oxidation of alcohol",
+                    "Catalytic dehydration",
+                    "Lucas test",
+                    "Iodoform test"
+                ]
+            },
+            {
+                name: "Phenol",
+                reactions: [
+                    "From chlorobenzene",
+                    "From diazonium salt",
+                    "From benzene sulphonic acid",
+                    "From salicylic acid",
+                    "From cumene",
+                    "From Grignard reagent",
+                    "Acidic nature of phenol",
+                    "Reaction with NaOH",
+                    "Reaction with NaHCO3",
+                    "Reaction with ammonia",
+                    "Reaction with zinc dust",
+                    "Reaction with Na",
+                    "Reaction with diazonium salt",
+                    "Reaction with phthalic anhydride",
+                    "Acylation reaction",
+                    "Kolbes reaction",
+                    "Riermer Tierman’s reaction",
+                    "Friedel Crafts alkylation",
+                    "Reaction with PCl5",
+                    "Ferric chloride test",
+                    "Aqueous bromine test",
+                    "Libermanns reaction"
+                ]
+            },
+            {
+                name: "Ethers",
+                reactions: [
+                    "Williamson’s synthesis",
+                    "Reaction with halogen acids",
+                    "Action with concentrated acids",
+                    "Action with air",
+                    "Action with chlorine"
+                ]
+            },
+            {
+                name: "Aldehyde and Ketone",
+                reactions: [
+                    "Oxidation of alcohol",
+                    "Ozonolysis",
+                    "Catalytic dehydration",
+                    "Rosenmund’s reaction",
+                    "Dialkyl cadmium",
+                    "From gemdihalo alkane",
+                    "Hydration of alkynes",
+                    "2,4-DNP test",
+                    "Tollens reagent",
+                    "Fehlings reagent",
+                    "Addition of H2",
+                    "Addition of HCN",
+                    "Addition of NaHSO3",
+                    "Grignard addition",
+                    "Aldol condensation",
+                    "Cross aldol",
+                    "Cannizzaro reaction",
+                    "Clemmensen reduction",
+                    "Cross Cannizzaro",
+                    "Wolf-Kishner reduction",
+                    "LiAlH4 action",
+                    "PCl5 reaction",
+                    "Reaction with ammonia",
+                    "Reaction with hydroxyl amine",
+                    "Reaction with hydrazine",
+                    "Reaction with phenylhydrazine",
+                    "Reaction with semicarbazide",
+                    "Reaction with phenol",
+                    "Benzaldehyde from toluene",
+                    "Acetophenone from benzene",
+                    "Perkin condensation",
+                    "Benzoin condensation",
+                    "Benzaldehyde oxidation",
+                    "Benzaldehyde reduction"
+                ]
+            },
+            {
+                name: "Carboxylic Acid",
+                reactions: [
+                    "Oxidation of alcohol",
+                    "From nitriles",
+                    "From dicarboxylic acid",
+                    "From sodium alkoxide",
+                    "From trihaloalkanes",
+                    "From toluene",
+                    "From Grignard reagent",
+                    "Reaction with alkalies",
+                    "Reaction with metal oxides",
+                    "Reaction with carbonates",
+                    "Formation of acid chlorides",
+                    "LiAlH4 reaction",
+                    "Dehydration",
+                    "Hell’s Volhard Zelinsky",
+                    "Esterification",
+                    "SOCl2 addition",
+                    "PCl5 addition",
+                    "Tollens reaction",
+                    "Fehlings reaction",
+                    "K2Cr2O7 reaction",
+                    "Mercuric chloride reaction"
+                ]
+            },
+            {
+                name: "Nitro Compounds",
+                reactions: [
+                    "From haloalkanes",
+                    "From alkane",
+                    "From benzene",
+                    "Reduction in acidic medium",
+                    "Reduction in neutral medium",
+                    "Catalytic reduction",
+                    "Metal hydrides reduction",
+                    "Alkali medium reduction",
+                    "LiAlH4 reduction",
+                    "Selective Reduction"
+                ]
+            },
+            {
+                name: "Amines",
+                reactions: [
+                    "Hoffman’s Ammonalysis",
+                    "Reduction of nitrocompounds",
+                    "Reduction of nitriles",
+                    "Reduction of amides",
+                    "From nitrobenzene",
+                    "From phenol",
+                    "From benzamide",
+                    "Reaction with chloroform",
+                    "Reaction with conc HCl",
+                    "Reaction with alkyl halides",
+                    "Reaction with acid chlorides",
+                    "Coupling reaction",
+                    "1° test",
+                    "2° test",
+                    "3° test",
+                    "Hoffman separation method"
+                ]
+            }
+        ];
+
+        const allReactions = chemistryChapters.flatMap(chapter => 
+            chapter.reactions.map(text => ({ chapter: chapter.name, text }))
+        );
+
+        const people = ["angeela", "arya", "umanga", "chandra"];
+        let usedReactions = [];
+        let availableReactions = [...allReactions];
+
+        function assignReactions() {
+            if (availableReactions.length === 0) return;
+
+            const newAssignments = [];
+            const tempAvailable = [...availableReactions];
+            
+            people.forEach(person => {
+                const availableForPerson = tempAvailable.filter(r => !newAssignments.includes(r));
+                if (availableForPerson.length === 0) return;
+                
+                const randomIndex = Math.floor(Math.random() * availableForPerson.length);
+                const reaction = availableForPerson[randomIndex];
+                
+                newAssignments.push(reaction);
+                document.getElementById(person).innerHTML = `
+                    <div class="chapter-name">${reaction.chapter}</div>
+                    ${reaction.text}
+                `;
+                tempAvailable.splice(tempAvailable.indexOf(reaction), 1);
+            });
+
+            usedReactions = [...usedReactions, ...newAssignments];
+            availableReactions = allReactions.filter(r => !usedReactions.includes(r));
+        }
+    </script>
+</body>
+</html>
